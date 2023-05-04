@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Replace Card</title>
+  </head>
+  <body>
+    <h1>Replace Card</h1>
+    <p>New card value: {{ new_card }}</p>
+    <p>Old card value: {{ old_card }}</p>
+    <form action="/replace_card_confirm" method="post">
+      <input type="hidden" name="card_index" value="{{ card_index }}">
+      <input type="hidden" name="new_card" value="{{ new_card }}">
+      <input type="radio" name="keep_card" value="true" checked>
+      <label for="keep_card">Keep new card</label>
+      <br>
+      <input type="radio" name="keep_card" value="false">
+      <label for="discard_card">Discard new card</label>
+      <br>
+      <input type="submit" value="Submit">
+    </form>
+  </body>
+</html>

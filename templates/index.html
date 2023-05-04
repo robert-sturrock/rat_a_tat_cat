@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Rat-a-tat-cat</title>
+  </head>
+  <body>
+    <h1>Simple Card Game</h1>
+    <div>
+      <h2>Human Cards:</h2>
+      {% for card in human_cards_visible %}
+      <p>{{ card }}</p>
+      {% endfor %}
+      <form method="post" action="{{ url_for('replace_card') }}">
+        <label>Replace Card:</label>
+        <select name="card_index">
+          {% for i in range(4) %}
+          <option value="{{ i }}">{{ i+1 }}</option>
+          {% endfor %}
+        </select>
+        <input type="submit" value="Draw Card">
+      </form>
+    </div>
+    <div>
+      <h2>Computer Cards:</h2>
+      {% for card in computer_cards %}
+      <p>{{ card }}</p>
+      {% endfor %}
+    </div>
+    <div id="log">
+      {% for event in events %}
+      <p>{{ event }}</p>
+      {% endfor %}
+    </div>
+  </body>
+</html>
