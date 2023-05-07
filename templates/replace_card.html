@@ -5,17 +5,27 @@
   </head>
   <body>
     <h1>Replace Card</h1>
-    <p>New card value: {{ new_card }}</p>
-    <p>Old card value: {{ old_card }}</p>
+    <!-- Display the new card value and current cards visible to the user -->
+    <p>Newly drawn card value: {{ new_card }}</p>
+    <p>Current cards: {{ human_cards_visible}}</p>
     <form action="/replace_card_confirm" method="post">
-      <input type="hidden" name="card_index" value="{{ card_index }}">
+      <label>Replace Card:</label>
+      <select name="card_index">
+        {% for i in range(4) %}
+        <option value="{{ i }}">{{ i+1 }}</option>
+        {% endfor %}
+      </select>
+      <!-- Include a hidden field to pass the new card value -->
       <input type="hidden" name="new_card" value="{{ new_card }}">
+      <br>
+      <!-- Add radio buttons to allow user to choose whether to keep or discard the new card -->
       <input type="radio" name="keep_card" value="true" checked>
-      <label for="keep_card">Keep new card</label>
+      <label for="keep_card">Keep newly drawn card</label>
       <br>
       <input type="radio" name="keep_card" value="false">
-      <label for="discard_card">Discard new card</label>
+      <label for="discard_card">Discard newly drawn card</label>
       <br>
+      <!-- Add a submit button to send the form data to the server -->
       <input type="submit" value="Submit">
     </form>
   </body>

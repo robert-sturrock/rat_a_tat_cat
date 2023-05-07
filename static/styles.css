@@ -1,0 +1,37 @@
+ 
+.card-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.card {
+  width: 150px;
+  height: 220px;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-value {
+  height: 25%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.card-image {
+  height: 75%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.card-image img {
+  max-width: 100%;
+  max-height: 100%;
+}

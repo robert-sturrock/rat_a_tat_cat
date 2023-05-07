@@ -55,33 +55,32 @@ def index():
 def replace_card():
     global human_cards, human_cards_visible, current_turn, draw_pile
 
-    # get the card index from the form data
-    card_index = int(request.form['card_index'])
-
     # draw a new card from the deck
     new_card = draw_pile.pop()
 
     # render the replace card template with the new card value
     return render_template('replace_card.html',
-                           new_card=new_card, old_card=human_cards_visible[card_index],
-                           card_index=card_index,
-                           human_cards=human_cards)
+                           human_cards=human_cards, human_cards_visible=human_cards_visible, new_card=new_card)
 
 @app.route('/replace_card_confirm', methods=['GET','POST'])
 def replace_card_confirm():
-    global human_cards, human_cards_visible, current_turn
+    global human_cards, human_cards_visible, current_turn, draw_pile
+
+    # get the card index from the form data
+    card_index = int(request.form['card_index'])
 
     # get the card index and whether to keep the card from the form data
     card_index = int(request.form['card_index'])
+    new_card = request.form['new_card']
     keep_card = request.form.get('keep_card')
 
     # if the player chooses to keep the card, update their hand and the log
     if keep_card == 'true':
-        human_cards[card_index] = int(request.form['new_card'])
-        human_cards_visible[card_index] = int(request.form['new_card'])
-        events.append(f"Player drew card {int(request.form['new_card'])} and kept it")
+        human_cards[card_index] = int(new_card)
+        human_cards_visible[card_index] = str(new_card)
+        events.append(f"Player drew card {int(new_card)} and kept it")
     else:
-        events.append(f"Player drew card {int(request.form['new_card'])} and did not keep it")
+        events.append(f"Player drew card {int(new_card)} and did not keep it")
     current_turn = 'computer'
 
     # render the index template with the updated hands
