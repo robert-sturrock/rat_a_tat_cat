@@ -2,12 +2,22 @@
 <html>
   <head>
     <title>Replace Card</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
   </head>
   <body>
     <h1>Replace Card</h1>
     <!-- Display the new card value and current cards visible to the user -->
     <p>Newly drawn card value: {{ new_card }}</p>
-    <p>Current cards: {{ human_cards_visible}}</p>
+    <div>
+    <h2>Your hand:</h2>
+    <div class="card-container">
+      {% for card in human_cards_visible %}
+      <div class="card">
+        <span class="card-value">{{ card }}</span>
+        <img src="{{ url_for('static', filename='images/' + card + '.png') }}" />
+      </div>
+      {% endfor %}
+    </div>
     <form action="/replace_card_confirm" method="post">
       <label>Replace Card:</label>
       <select name="card_index">
