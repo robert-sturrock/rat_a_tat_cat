@@ -7,7 +7,13 @@
   <body>
     <h1>Replace Card</h1>
     <!-- Display the new card value and current cards visible to the user -->
-    <p>Newly drawn card value: {{ new_card }}</p>
+    <p>Newly drawn card:</p>
+    <div class="card-container">
+        <div class="card">
+          <span class="card-value">{{ new_card }}</span>
+          <img src="{{ url_for('static', filename='images/' + new_card_str + '.png') }}" />
+        </div>
+      </div>      
     <div>
     <h2>Your hand:</h2>
     <div class="card-container">

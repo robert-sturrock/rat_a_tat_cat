@@ -15,6 +15,13 @@
         </div>
         {% endfor %}
       </div>
+      <h2> Last discarded card: </h2>
+      <div class="card-container">
+        <div class="card">
+          <span class="card-value">{{ last_discarded_card }}</span>
+          <img src="{{ url_for('static', filename='images/' + last_discarded_card + '.png') }}" />
+        </div>
+      </div>      
     <p>
     <form method="POST" action="/replace_card">
       <input type="submit" name="replace_card" value="Draw Card">

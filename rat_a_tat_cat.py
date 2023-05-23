@@ -43,10 +43,11 @@ def computer_turn():
     current_turn = 'human'
 
 def game():
-    global human_cards, human_cards_visible, computer_cards, draw_pile, last_round, current_turn, events
+    global human_cards, human_cards_visible, computer_cards, draw_pile, last_round, current_turn, events, last_discarded_card
 
     if current_turn == 'human':
-        return render_template('index.html', human_cards=human_cards, human_cards_visible=human_cards_visible, computer_cards=computer_cards, events=events)
+        return render_template('index.html', human_cards=human_cards, human_cards_visible=human_cards_visible,
+                                computer_cards=computer_cards, events=events, last_discarded_card=str(last_discarded_card))
 
     elif current_turn == 'computer':
         computer_turn()
@@ -54,7 +55,8 @@ def game():
         events.append(f'Human Cards: {human_cards}')
         events.append(f'Computer Cards: {computer_cards}')
         events.append(f'Discard Card:{last_discarded_card}')
-        return render_template('index.html', human_cards=human_cards, human_cards_visible=human_cards_visible, computer_cards=computer_cards, events=events)
+        return render_template('index.html', human_cards=human_cards, human_cards_visible=human_cards_visible, 
+                               computer_cards=computer_cards, events=events, last_discarded_card=str(last_discarded_card))
 
 @app.route('/')
 def index():
@@ -70,7 +72,8 @@ def replace_card():
 
     # render the replace card template with the new card value
     return render_template('replace_card.html',
-                           human_cards=human_cards, human_cards_visible=human_cards_visible, new_card=new_card)
+                           human_cards=human_cards, human_cards_visible=human_cards_visible, 
+                           new_card=new_card, new_card_str = str(new_card))
 
 # Note that app.route essentially picks up on a request sent from the html that references
 # ('/pick_up_discard_card'. But it doesn't have to then go on and render an html page with the same
