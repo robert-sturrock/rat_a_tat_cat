@@ -1,11 +1,18 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Results</title>
-  </head>
-  <body>
-    <h1>Final Scores:</h1>
-    <p>Human player score: {{ human_score }}</p>
-    <p>Computer player score: {{ computer_score }}</p>
-  </body>
-</html>
+<h1>Final Scores:</h1>
+<p>Human player score: {{ human_score }}</p>
+<p>Computer player score: {{ computer_score }}</p>
+<h2>
+  {% if human_score < computer_score %}
+    Winner: Human player
+  {% elif human_score > computer_score %}
+    Winner: Computer player
+  {% else %}
+    It's a draw!
+  {% endif %}
+</h2>
+
+<div id="log">
+  {% for event in events %}
+  <p>{{ event }}</p>
+  {% endfor %}
+</div>

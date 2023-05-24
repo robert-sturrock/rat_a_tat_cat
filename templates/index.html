@@ -1,7 +1,8 @@
+Copy code
 <!doctype html>
 <html>
   <head>
-      <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
   </head>
   <body>
     <h1>Rat-a-tat-cat</h1>
@@ -10,35 +11,44 @@
       <div class="card-container">
         {% for card in human_cards_visible %}
         <div class="card">
-          <span class="card-value">{{ card }}</span>
-          <img src="{{ url_for('static', filename='images/' + card + '.png') }}" />
+          <span class="card-value top-right">{{ card }}</span>
+          <span class="card-value bottom-left">{{ card }}</span>
+          <div class="card-image">
+            <img src="{{ url_for('static', filename='images/' + card + '.png') }}" />
+          </div>
         </div>
         {% endfor %}
       </div>
-      <h2> Last discarded card: </h2>
-      <div class="card-container">
-        <div class="card">
-          <span class="card-value">{{ last_discarded_card }}</span>
+    </div>
+
+    <h2> Last discarded card: </h2>
+    <div class="card-container">
+      <div class="card">
+        <span class="card-value top-right">{{ last_discarded_card }}</span>
+        <span class="card-value bottom-left">{{ last_discarded_card }}</span>
+        <div class="card-image">
           <img src="{{ url_for('static', filename='images/' + last_discarded_card + '.png') }}" />
         </div>
-      </div>      
-    <p>
-    <form method="POST" action="/replace_card">
-      <input type="submit" name="replace_card" value="Draw Card">
+      </div>
+    </div>
+
+    <div class="button-container">
+      <form method="POST" action="/replace_card">
+        <button class="button" type="submit" name="replace_card">Draw Card</button>
       </form>
-    <form method="POST" action="/pick_up_discard_card">
-      <input type="submit" name="pick_up_discard_card" value="Pick up Discard">
+      <form method="POST" action="/pick_up_discard_card">
+        <button class="button" type="submit" name="pick_up_discard_card">Pick up Discard</button>
+      </form>
+      <form method="POST" action="/last_round">
+        <button class="button" type="submit" name="last_round">Last Round</button>
       </form>
     </div>
-    <div id="last round">
-		<form method="POST" action="/last_round">
-		<input type="submit" name="last_round" value="Last Round">
-		</form>
-    </div>
+
     <div id="log">
       {% for event in events %}
       <p>{{ event }}</p>
       {% endfor %}
     </div>
+
   </body>
 </html>

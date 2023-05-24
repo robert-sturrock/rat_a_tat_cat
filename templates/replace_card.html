@@ -1,48 +1,56 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <!-- Define the title of the webpage -->
     <title>Replace Card</title>
+    <!-- Link to your CSS styles -->
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
   </head>
   <body>
+    <!-- Display the page title -->
     <h1>Replace Card</h1>
-    <!-- Display the new card value and current cards visible to the user -->
-    <p>Newly drawn card:</p>
-    <div class="card-container">
-        <div class="card">
-          <span class="card-value">{{ new_card }}</span>
-          <img src="{{ url_for('static', filename='images/' + new_card_str + '.png') }}" />
-        </div>
-      </div>      
-    <div>
-    <h2>Your hand:</h2>
-    <div class="card-container">
-      {% for card in human_cards_visible %}
-      <div class="card">
-        <span class="card-value">{{ card }}</span>
-        <img src="{{ url_for('static', filename='images/' + card + '.png') }}" />
+    
+    <!-- Section for the newly drawn card -->
+    <h2>Newly drawn card:</h2>
+    <div class="card">
+      <!-- Display the value of the new card at the top right and bottom left -->
+      <span class="card-value top-right">{{ new_card }}</span>
+      <span class="card-value bottom-left">{{ new_card }}</span>
+      <!-- Display the image of the new card -->
+      <div class="card-image">
+        <img src="{{ url_for('static', filename='images/' + new_card_str + '.png') }}" />
       </div>
-      {% endfor %}
-    </div>
+    </div>  
+    
+    <!-- Section for the current hand -->
+    <h2>Your hand:</h2>
+    <!-- Start of the form for the replace card action -->
     <form action="/replace_card_confirm" method="post">
-      <label>Replace Card:</label>
-      <select name="card_index">
+      <!-- Container for the cards and their corresponding replace buttons -->
+      <div class="card-container">
+        <!-- Loop over each card in the visible hand -->
         {% for i in range(4) %}
-        <option value="{{ i }}">{{ i+1 }}</option>
+        <div class="card-slot">
+          <!-- Display each card and its value -->
+          <div class="card">
+            <span class="card-value top-right">{{ human_cards_visible[i] }}</span>
+            <span class="card-value bottom-left">{{ human_cards_visible[i] }}</span>
+            <div class="card-image">
+              <img src="{{ url_for('static', filename='images/' + human_cards_visible[i] + '.png') }}" />
+            </div>
+          </div>
+          <!-- Button for each card to choose which to replace -->
+          <button class="button" type="submit" name="card_index" value="{{ i }}">Replace Card {{ i+1 }}</button>
+        </div>
         {% endfor %}
-      </select>
-      <!-- Include a hidden field to pass the new card value -->
-      <input type="hidden" name="new_card" value="{{ new_card }}">
-      <br>
-      <!-- Add radio buttons to allow user to choose whether to keep or discard the new card -->
-      <input type="radio" name="keep_card" value="true" checked>
-      <label for="keep_card">Keep newly drawn card</label>
-      <br>
-      <input type="radio" name="keep_card" value="false">
-      <label for="discard_card">Discard newly drawn card</label>
-      <br>
-      <!-- Add a submit button to send the form data to the server -->
-      <input type="submit" value="Submit">
-    </form>
+      </div>
+    
+      <!-- Button to discard the new card instead of replacing any in the hand -->
+      <div class="button-container">
+        <button class="button discard-button" type="submit" name="discard_new_card" value="true">Discard New Card</button>
+        <!-- Hidden input to send the new card value back to the server -->
+        <input type="hidden" name="new_card" value="{{ new_card }}">
+      </div>
+    </form>      
   </body>
 </html>

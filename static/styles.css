@@ -1,37 +1,106 @@
- 
+body {
+  font-family: Arial, sans-serif; /* This will give the page a more modern look */
+  background-color: #F5F5F5; /* Light grey background to match the buttons */
+  color: #333; /* Dark grey text for contrast */
+}
+
+h1, h2 {
+  color: #007BFF; ; /* Match the button color */
+  font-family: Arial, sans-serif; /* This will give the page a more modern look */
+}
+
+
 .card-container {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-around;
+  align-items: flex-start;  /* This will align all items to the top */
+  padding: 0 20px;
+  flex-wrap: wrap;  /* This will allow the items to wrap onto the next line if needed */
+  max-width: 800px;
+}
+
+.card-button-container {
+  display: flex;
+  flex-direction: column;
   align-items: center;
+}
+ 
+ .button {
+  background-color: #007BFF; /* Green background */
+  border: none; /* Remove borders */
+  color: white; /* White text */
+  padding: 15px 32px; /* Some padding */
+  text-align: center; /* Centered text */
+  text-decoration: none; /* Remove underline */
+  display: inline-block; /* Display as inline elements */
+  font-size: 16px; /* Change text size */
+  margin: 4px 2px; /* Some margin */
+  cursor: pointer; /* Mouse pointer on hover */
+ }
+ 
+ .button:hover {
+  background-color: #0069d9; /* Add a dark green background on hover */
+ }
+
+ .button-container {
+  display: flex;
+  max-width: 800px;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.discard-button {
+  width: 100%;
 }
 
 
 .card {
   width: 150px;
   height: 220px;
-  border: 1px solid black;
-  display: flex;
-  flex-direction: column;
-}
-
-.card-value {
-  height: 25%;
+  border: 1px solid #333;
+  border-radius: 15px;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+  padding: 15px;
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.card-value {
+  position: absolute;
   font-size: 24px;
   font-weight: bold;
 }
 
+.card-value.top-right {
+  top: 5px;
+  right: 5px;
+}
+
+.card-value.bottom-left {
+  bottom: 5px;
+  left: 5px;
+}
+
 .card-image {
-  height: 75%;
+  flex-grow: 1; /* this will make it take up all remaining space in the card */
   display: flex;
   justify-content: center;
-  align-items: flex-end;
+  align-items: center;
 }
 
 .card-image img {
-  max-width: 100%;
+  max-width: 100%; 
   max-height: 100%;
+  object-fit: contain; /* this will make sure the image scales correctly */
+}
+
+
+
+
+#log {
+  max-height: 200px; /* Set this to whatever maximum height you want */
+  overflow-y: auto; /* This will make the div scrollable when the content overflows */
 }
