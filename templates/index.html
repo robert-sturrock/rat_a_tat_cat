@@ -1,4 +1,3 @@
-Copy code
 <!doctype html>
 <html>
   <head>
@@ -44,9 +43,10 @@ Copy code
       </form>
     </div>
 
-    <div id="log">
-      {% for event in events %}
-      <p>{{ event }}</p>
+    <div id="human-log">
+      <h2>Computer's moves:</h2>
+      {% for log_entry in human_log %}
+      <p>{{ loop.revindex }}. {{ log_entry }}</p>
       {% endfor %}
     </div>
 

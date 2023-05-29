@@ -1,18 +1,62 @@
-<h1>Final Scores:</h1>
-<p>Human player score: {{ human_score }}</p>
-<p>Computer player score: {{ computer_score }}</p>
-<h2>
-  {% if human_score < computer_score %}
-    Winner: Human player
-  {% elif human_score > computer_score %}
-    Winner: Computer player
-  {% else %}
-    It's a draw!
-  {% endif %}
-</h2>
+<!DOCTYPE html> <!-- Defines the document type as HTML -->
+<html>
+  <head> <!-- Contains meta-information about the HTML document -->
+    <title>Game Result</title> <!-- Specifies the title of the webpage, which is shown in the browser's title bar or tab -->
+    <!-- Includes the styles.css file which contains all the CSS rules for the website -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  </head>
+  <body> <!-- Contains all the contents of an HTML document, such as text, hyperlinks, images, tables, lists, etc -->
+    <h1>Game Result</h1> <!-- Main heading of the page -->
+    <!-- Container for displaying the final scores. Styles are applied using the class "result-container" defined in styles.css -->
+    <div class="result-container">
+      <h2>Final Scores:</h2> <!-- Sub-heading for scores -->
+      <!-- The scores of the human player and computer player are dynamically filled from the variables human_score and computer_score -->
+      <p>Human player score: <span class="score">{{ human_score }}</span></p> 
+      <p>Computer player score: <span class="score">{{ computer_score }}</span></p>
+      <!-- Determine the winner or whether it's a draw based on the scores -->
+      <h2 class ="winner">
+        {% if human_score < computer_score %}
+          Winner: Human player
+        {% elif human_score > computer_score %}
+          Winner: Computer player
+        {% else %}
+          It's a draw!
+        {% endif %}
+      </h2>
+      <h2>Human Player Cards</h2>
+      <div class="card-container">
+          {% for card in human_cards %}
+          <div class="card">
+              <span class="card-value top-right">{{ card }}</span>
+              <span class="card-value bottom-left">{{ card }}</span>
+              <div class="card-image">
+                  <img src="{{ url_for('static', filename='images/' + card + '.png') }}">
+              </div>
+          </div>
+          {% endfor %}
+      </div>
+  
+      <h2>Computer Player Cards</h2>
+      <div class="card-container">
+          {% for card in computer_cards %}
+          <div class="card">
+              <span class="card-value top-right">{{ card }}</span>
+              <span class="card-value bottom-left">{{ card }}</span>
+              <div class="card-image">
+                  <img src="{{ url_for('static', filename='images/' + card + '.png') }}">
+              </div>
+          </div>
+          {% endfor %}
+      </div>
+    </div>
 
-<div id="log">
-  {% for event in events %}
-  <p>{{ event }}</p>
-  {% endfor %}
-</div>
+    <!-- Container for displaying the game log. Styles are applied using the class "log-container" defined in styles.css -->
+    <div class="log-container">
+      <h2>Game Log:</h2> <!-- Sub-heading for game log -->
+      <!-- The game log events are dynamically filled from the events list, one event per paragraph -->
+      {% for event in events %}
+        <p class="log-entry">{{ event }}</p>
+      {% endfor %}
+    </div>
+  </body>
+</html>

@@ -1,73 +1,88 @@
+/* Importing the Lora font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Lora&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+
+/* General rules for body element */
 body {
-  font-family: Arial, sans-serif; /* This will give the page a more modern look */
-  background-color: #F5F5F5; /* Light grey background to match the buttons */
-  color: #333; /* Dark grey text for contrast */
+  font-family: 'Lora', serif; /* Default font for the page */
+  background-color: #F5F5F5; /* Light grey background for the page */
+  color: #333; /* Dark grey color for the text */
 }
 
+/* Styling for heading elements */
 h1, h2 {
-  color: #007BFF; ; /* Match the button color */
-  font-family: Arial, sans-serif; /* This will give the page a more modern look */
+  color: #007BFF; /* Color that matches the button color */
+  font-family: 'Lora', serif; /* Giving a modern look to the headings */
 }
 
-
+/* Styling for card container */
 .card-container {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  align-items: flex-start;  /* This will align all items to the top */
+  align-items: flex-start; /* Aligns items to the top */
   padding: 0 20px;
-  flex-wrap: wrap;  /* This will allow the items to wrap onto the next line if needed */
+  flex-wrap: wrap; /* Items will wrap onto the next line if needed */
   max-width: 800px;
 }
 
+/* Styling for card button container */
 .card-button-container {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
- 
- .button {
-  background-color: #007BFF; /* Green background */
-  border: none; /* Remove borders */
-  color: white; /* White text */
-  padding: 15px 32px; /* Some padding */
-  text-align: center; /* Centered text */
-  text-decoration: none; /* Remove underline */
-  display: inline-block; /* Display as inline elements */
-  font-size: 16px; /* Change text size */
-  margin: 4px 2px; /* Some margin */
-  cursor: pointer; /* Mouse pointer on hover */
- }
- 
- .button:hover {
-  background-color: #0069d9; /* Add a dark green background on hover */
- }
 
- .button-container {
+/* Styling for buttons */
+.button {
+  font-family: 'Roboto', serif;
+  background-color: #007BFF; /* Button color */
+  border: none; /* Removing borders */
+  color: white; /* Text color */
+  padding: 15px 32px; /* Padding around text */
+  text-align: center; /* Center aligned text */
+  text-decoration: none; /* Removing underline */
+  display: inline-block; /* Displaying as inline elements */
+  font-size: 16px; /* Text size */
+  margin: 4px 2px; /* Margin around buttons */
+  cursor: pointer; /* Cursor effect on hover */
+}
+
+/* Styling for button on hover */
+.button:hover {
+  background-color: #7ebafa; /* Dark green background color on hover */
+}
+
+/* Styling for button container */
+.button-container {
   display: flex;
   max-width: 800px;
   justify-content: space-between;
   padding: 0 20px;
 }
 
+/* Styling for discard button */
 .discard-button {
   width: 100%;
 }
 
-
+/* Styling for cards */
 .card {
   width: 150px;
   height: 220px;
   border: 1px solid #333;
   border-radius: 15px;
-  box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.1); /* Shadow effect */
   padding: 15px;
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: all 0.3s ease; /* Transition effect */
 }
 
+/* Styling for card value */
 .card-value {
   position: absolute;
   font-size: 24px;
@@ -84,8 +99,9 @@ h1, h2 {
   left: 5px;
 }
 
+/* Styling for card image */
 .card-image {
-  flex-grow: 1; /* this will make it take up all remaining space in the card */
+  flex-grow: 1; /* To take up all remaining space in the card */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -94,13 +110,36 @@ h1, h2 {
 .card-image img {
   max-width: 100%; 
   max-height: 100%;
-  object-fit: contain; /* this will make sure the image scales correctly */
+  object-fit: contain; /* For the image to scale correctly */
 }
 
+/* Styling for log */
+#log, #human_log {
+  max-height: 100px; /* Maximum height for the log container */
+  overflow-y: auto; /* Scrollable when the content overflows */
+  padding: 10px; /* Padding around text */
+  background-color: #fff; /* Background color */
+  border: 1px solid #ccc; /* Border around the container */
+  border-radius: 5px; /* Rounded corners */
+  margin-bottom: 20px; /* Space at the bottom */
+  font-family: 'Open Sans', sans-serif; /* Font for the log text */
+}
 
+@keyframes flash {
+  0% { border-color: transparent; }
+  50% { border-color: #007BFF; }
+  100% { border-color: transparent; }
+}
 
+.winner {
+  /* Change the text color */
+  color: #DAA520;  /* Goldenrod for example */
 
-#log {
-  max-height: 200px; /* Set this to whatever maximum height you want */
-  overflow-y: auto; /* This will make the div scrollable when the content overflows */
+  /* Add a box around the text */
+  padding: 10px;
+  border: 2px solid #007BFF;
+  max-width: 800px;
+
+  /* Create a flashing effect for the box */
+  animation: flash 2s linear infinite;
 }
