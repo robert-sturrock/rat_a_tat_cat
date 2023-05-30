@@ -1,37 +1,39 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <!-- Define the title of the webpage -->
+    <!-- The title displayed in the browser tab -->
     <title>Replace Card</title>
-    <!-- Link to your CSS styles -->
+    <!-- Linking to the CSS file for styles -->
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
   </head>
   <body>
-    <!-- Display the page title -->
+    <!-- Main header/title of the page -->
     <h1>Replace Card</h1>
-    
-    <!-- Section for the newly drawn card -->
+
+    <!-- Subheading for the newly drawn card section -->
     <h2>Newly drawn card:</h2>
+    <!-- Card container displaying the newly drawn card -->
     <div class="card">
-      <!-- Display the value of the new card at the top right and bottom left -->
+      <!-- Card values displayed at the top-right and bottom-left -->
       <span class="card-value top-right">{{ new_card }}</span>
       <span class="card-value bottom-left">{{ new_card }}</span>
-      <!-- Display the image of the new card -->
+      <!-- Card image displayed in the center -->
       <div class="card-image">
         <img src="{{ url_for('static', filename='images/' + new_card_str + '.png') }}" />
       </div>
     </div>  
     
-    <!-- Section for the current hand -->
+    <!-- Subheading for the current hand section -->
     <h2>Your hand:</h2>
-    <!-- Start of the form for the replace card action -->
+    <!-- Form for card replacement action, POSTs data to "/replace_card_confirm" -->
     <form action="/replace_card_confirm" method="post">
-      <!-- Container for the cards and their corresponding replace buttons -->
+      <!-- Card container displaying current hand and associated actions -->
       <div class="card-container">
-        <!-- Loop over each card in the visible hand -->
+        <!-- For each card in the hand (using index i) -->
         {% for i in range(4) %}
+        <!-- Individual card slot containing card and action button -->
         <div class="card-slot">
-          <!-- Display each card and its value -->
+          <!-- Display card and its value -->
           <div class="card">
             <span class="card-value top-right">{{ human_cards_visible[i] }}</span>
             <span class="card-value bottom-left">{{ human_cards_visible[i] }}</span>
@@ -39,18 +41,87 @@
               <img src="{{ url_for('static', filename='images/' + human_cards_visible[i] + '.png') }}" />
             </div>
           </div>
-          <!-- Button for each card to choose which to replace -->
-          <button class="button" type="submit" name="card_index" value="{{ i }}">Replace Card {{ i+1 }}</button>
+          <!-- Action button to replace a specific card -->
+          <!-- Calls "showCardValue" function on click with card index and value -->
+          <button class="button" type="submit" name="card_index" value="{{ i }}" onclick="showCardValue({{ i }}, '{{ human_cards[i] }}', event)">Replace Card {{ i+1 }}</button>
+          <!-- Hidden fields to pass card data to the server on form submit -->
+          <input type="hidden" name="human_cards" value="{{ human_cards[i] }}">
+          <input type="hidden" name="human_cards_visible" value="{{ human_cards_visible[i] }}">
         </div>
         {% endfor %}
+        <!-- Hidden field to store the index of the card being replaced -->
+        <input type="hidden" id="cardIndexHidden" name="card_index" value="">
       </div>
-    
-      <!-- Button to discard the new card instead of replacing any in the hand -->
+      
+      <!-- Container for the discard action button -->
       <div class="button-container">
+        <!-- Action button to discard the newly drawn card -->
         <button class="button discard-button" type="submit" name="discard_new_card" value="true">Discard New Card</button>
-        <!-- Hidden input to send the new card value back to the server -->
+        <!-- Hidden field to pass new card data to the server on form submit -->
         <input type="hidden" name="new_card" value="{{ new_card }}">
       </div>
-    </form>      
+    </form>
+  
+    <!-- Modal window for displaying messages -->
+    <div id="myModal" class="modal">
+      <!-- Modal content container -->
+      <div class="modal-content">
+        <!-- Close button (styled as a "X") -->
+        <span class="close">&times;</span>
+        <!-- Text content of the modal -->
+        <p id="modalMessage"></p>
+        <!-- OK button for user acknowledgement -->
+        <button id="okButton" class="button">OK</button>
+      </div>
+    </div>  
+
+    <script>
+      // Flag to track if a form submission is pending (needed for modal interaction)
+      var formSubmissionPending = false;
+    
+      // Function called when a card replacement button is clicked
+      function showCardValue(i, cardValue, event) {
+        // Store the index of the clicked card in the hidden field
+        document.getElementById("cardIndexHidden").value = i;
+        // If the clicked card is unknown (represented by "X")
+        if (document.getElementsByName("human_cards_visible")[i].value === "X") {
+          // Set the flag indicating a form submission is pending
+          formSubmissionPending = true;
+          // Set the text content of the modal
+          document.getElementById("modalMessage").textContent = `The unknown card you replaced was a ${cardValue}`;
+          // Show the modal
+          document.getElementById("myModal").style.display = "block";
+          // Prevent the form submission
+          event.preventDefault();
+        }
+      }
+    
+      // References to modal and its components
+      var modal = document.getElementById("myModal");
+      var span = document.getElementsByClassName("close")[0];
+      var okButton = document.getElementById("okButton");
+    
+      // Function to close the modal and, if a form submission is pending, submit the form
+      function closeModal() {
+        // Hide the modal
+        modal.style.display = "none";
+        // If a form submission is pending
+        if (formSubmissionPending) {
+          // Reset the flag
+          formSubmissionPending = false;
+          // Submit the form
+          document.querySelector('form').submit();
+        }
+      }
+      
+      // Add event listeners to close the modal on clicking the close button, the OK button, or outside the modal
+      span.onclick = closeModal;
+      okButton.onclick = closeModal;
+      window.onclick = function(event) {
+        if (event.target == modal) {
+          closeModal();
+        }
+      }
+    </script>      
   </body>
 </html>
