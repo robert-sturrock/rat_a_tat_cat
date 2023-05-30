@@ -55,7 +55,11 @@
       <h2>Game Log:</h2> <!-- Sub-heading for game log -->
       <!-- The game log events are dynamically filled from the events list, one event per paragraph -->
       {% for event in events %}
-        <p class="log-entry">{{ event }}</p>
+        {% if "Human turn" in event or "Computer turn" in event or "Current game state:" in event %}
+            <p class="log-entry bold-log-entry">{{ event }}</p>
+        {% else %}
+            <p class="log-entry">{{ event }}</p>
+        {% endif %}
       {% endfor %}
     </div>
   </body>

@@ -47,6 +47,7 @@ h1, h2 {
   font-size: 16px; /* Text size */
   margin: 4px 2px; /* Margin around buttons */
   cursor: pointer; /* Cursor effect on hover */
+  border-radius: 12px; /* Add curved edge */
 }
 
 /* Styling for button on hover */
@@ -125,6 +126,29 @@ h1, h2 {
   font-family: 'Open Sans', sans-serif; /* Font for the log text */
 }
 
+.log-container {
+  max-height: 300px; /* Set to the desired maximum visual height */
+  overflow-y: scroll; /* Add vertical scrollbar when necessary */
+  border: 1px solid #ccc; /* Border around the container */
+  border-radius: 5px; /* Rounded corners */
+  padding: 10px; /* Padding around text */
+  background-color: #fff; /* Background color */
+  width: 50%; /* Set the width as per your requirement */
+  margin: auto; /* Center the box */
+}
+
+.log-entry {
+  padding: 5px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+
+.bold-log-entry {
+  font-weight: bold;
+}
+
+
 @keyframes flash {
   0% { border-color: transparent; }
   50% { border-color: #007BFF; }
@@ -142,4 +166,38 @@ h1, h2 {
 
   /* Create a flashing effect for the box */
   animation: flash 2s linear infinite;
+}
+
+.modal {
+  display: none; 
+  position: fixed; 
+  z-index: 1; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  overflow: auto; 
+  background-color: rgba(0,0,0,0.4); 
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
 }

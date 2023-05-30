@@ -7,9 +7,9 @@ def initialize_game():
     global human_cards, human_cards_visible, computer_cards, draw_pile, current_turn, last_round, events, human_log, last_discarded_card
 
     # Card deck initialization
-    weights = [1, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-    cards = random.choices(range(10), weights=weights, k=100)
-
+    # There should be four cards for 0-8, and nine 9s (matching the original game) 
+    cards = list(range(9)) * 4 + [9] * 9
+    random.shuffle(cards)
 
     # Card allocation to players
     human_cards = cards[:4]
@@ -42,7 +42,7 @@ def computer_turn():
     
     # Check if the discarded card is worth picking up
     known_cards_values = [computer_cards[i] for i in known_card_indices]
-    if last_discarded_card < min(known_cards_values):
+    if last_discarded_card < max(known_cards_values):
         # pick up the discarded card and replace the maximum known card
         new_card = last_discarded_card
         last_discarded_card = None
@@ -58,6 +58,7 @@ def computer_turn():
         max_card_index = known_card_indices[known_cards_values.index(max_known_card_value)]
         discarded_card = computer_cards[max_card_index]
         computer_cards[max_card_index] = new_card
+        human_log.insert(0, f"Computer {action} and then replaced card {max_card_index + 1}, it was a {discarded_card}.")
     else:
         # Decide whether to replace an unknown card
         unknown_card_indices = [i for i in range(4) if i not in known_card_indices]
@@ -68,29 +69,34 @@ def computer_turn():
                 discarded_card = computer_cards[unknown_card_index]
                 computer_cards[unknown_card_index] = new_card
                 known_card_indices.append(unknown_card_index)  # the unknown card now becomes known
+                human_log.insert(0, f"Computer {action} and then replaced card {unknown_card_index + 1}, it was a {last_discarded_card}.")
             else:
                 discarded_card = new_card  # decide not to replace any card
+                human_log.insert(0, f"Computer {action} and then discarded it, it was a {discarded_card}.")
         else:
             discarded_card = new_card  # all cards are known
 
     last_discarded_card = discarded_card
     current_turn = 'human'
-    human_log.insert(0, f"Computer {action} and discarded a {last_discarded_card}.")
+    return computer_cards
 
 
 def game():
     global human_cards, human_cards_visible, computer_cards, draw_pile, last_round, current_turn, events, last_discarded_card
 
     if current_turn == 'human':
+        events.append('Human turn')
         return render_template('index.html', human_cards=human_cards, human_cards_visible=human_cards_visible,
                                 computer_cards=computer_cards, events=events, last_discarded_card=str(last_discarded_card))
 
     elif current_turn == 'computer':
         computer_turn()
-        events.append('Computer drew a card and replaced one of its cards')
+        events.append('Computer turn')
+        events.append(human_log[0])
+        events.append('Current game state:')
         events.append(f'Human Cards: {human_cards}')
         events.append(f'Computer Cards: {computer_cards}')
-        events.append(f'Discard Card:{last_discarded_card}')
+        events.append(f'Discard Card: {last_discarded_card}')
         return render_template('index.html', human_cards=human_cards, human_cards_visible=human_cards_visible, 
                                computer_cards=computer_cards, events=events, last_discarded_card=str(last_discarded_card),
                                human_log=human_log)
@@ -148,7 +154,9 @@ def replace_card_confirm():
         last_discarded_card = human_cards[card_index]
         human_cards[card_index] = int(new_card)
         human_cards_visible[card_index] = str(new_card)
-        events.append(f"Player drew card {int(new_card)} and replaced card {card_index+1}")
+        events.append(f"Player drew a {int(new_card)} and replaced card {card_index+1}")
+    
+    events.append(f"Discard card: {last_discarded_card}")
 
     # set to computer turn
     current_turn = 'computer'
@@ -159,10 +167,13 @@ def replace_card_confirm():
 
 @app.route('/last_round', methods=['POST'])
 def last_round():
-    computer_turn()
-    return render_template('result.html', human_score=sum(human_cards), computer_score=sum(computer_cards), events=events, 
+    global events
+    events.append('Human player declares last round! Computer takes one more turn')
+    computer_cards = computer_turn() # store returned computer_cards after last turn
+    computer_score = sum(computer_cards) # calculate score after last turn
+    events.append(human_log[0]) # add computers last turn
+    return render_template('result.html', human_score=sum(human_cards), computer_score=computer_score, events=events, 
                            human_cards_str=[str(card) for card in human_cards], computer_cards_str=[str(card) for card in computer_cards])
-
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
 
